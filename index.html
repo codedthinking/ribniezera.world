@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Lakes: Knowledge to Die For | Ribni Ezera Series</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a3a4a;
+            --secondary-color: #c06b52;
+            --accent-color: #e9d8a6;
+            --light-color: #f5f5f5;
+            --dark-color: #2b2b2b;
+            --overlay-color: rgba(26, 58, 74, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/img/mountain-dog.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.9);
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-color);
+            z-index: -1;
+        }
+        
+        .navbar {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--light-color);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .language-toggle {
+            background: transparent;
+            border: 1px solid var(--light-color);
+            color: var(--light-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .language-toggle:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            color: var(--light-color);
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .series-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .book-title {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .book-description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .cta-button {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .primary-button {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            border: none;
+        }
+        
+        .primary-button:hover {
+            background-color: #b05642;
+            transform: translateY(-2px);
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: var(--light-color);
+            border: 2px solid var(--light-color);
+        }
+        
+        .secondary-button:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .about-section {
+            padding: 5rem 5%;
+            background-color: var(--light-color);
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .feature-text {
+            font-size: 1rem;
+        }
+        
+        .signup-section {
+            padding: 5rem 5%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            text-align: center;
+        }
+        
+        .signup-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .signup-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .signup-text {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .signup-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .submit-button {
+            padding: 1rem 2rem;
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-button:hover {
+            background-color: #b05642;
+        }
+        
+        .gallery-section {
+            padding: 5rem 5%;
+            background-color: var(--light-color);
+            text-align: center;
+        }
+        
+        .gallery-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            padding: 1rem;
+            color: var(--light-color);
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .footer {
+            padding: 3rem 5%;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-link {
+            color: var(--light-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-icon {
+            color: var(--light-color);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: var(--accent-color);
+        }
+        
+        .photo-credit {
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .site-info {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .site-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .site-link:hover {
+            color: var(--light-color);
+            text-decoration: underline;
+        }
+        
+        .endorsements-section {
+            padding: 5rem 5%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+        
+        .endorsements-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .endorsements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .endorsement {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .endorsement-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .endorsement-author {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        
+        .author-section {
+            padding: 5rem 5%;
+            background-color: var(--light-color);
+        }
+        
+        .author-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .author-image-container {
+            width: 100%;
+        }
+        
+        .author-image {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .author-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .author-social {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .author-social-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .author-social-link:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Media query updates for new sections */
+        @media (max-width: 900px) {
+            .author-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .author-image-container {
+                max-width: 250px;
+                margin: 0 auto;
+            }
+            
+            .author-social {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .endorsements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--light-color);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--secondary-color);
+        }
+        
+        .modal-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .modal-text {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Hungarian content */
+        [lang="hu"] {
+            display: none;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .about-image {
+                order: -1;
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .book-title {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .cta-button {
+                width: 100%;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .signup-form {
+                flex-direction: column;
+            }
+            
+            .email-input {
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+            
+            .submit-button {
+                border-radius: 4px;
+            }
+            
+            .gallery-item {
+                height: 250px;
+            }
+            
+            .gallery-caption {
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .book-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .signup-title {
+                font-size: 2rem;
+            }
+            
+            .gallery-title {
+                font-size: 2rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content > * {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .series-title {
+            animation-delay: 0.2s;
+        }
+        
+        .book-title {
+            animation-delay: 0.4s;
+        }
+        
+        .book-description {
+            animation-delay: 0.6s;
+        }
+        
+        .cta-buttons {
+            animation-delay: 0.8s;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="overlay"></div>
+        <nav class="navbar">
+            <a href="#" class="logo">RIBNI EZERA</a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link" data-lang="en">About</a>
+                <a href="#about" class="nav-link" data-lang="hu" style="display: none;">Ismertető</a>
+                <a href="#gallery" class="nav-link" data-lang="en">Gallery</a>
+                <a href="#gallery" class="nav-link" data-lang="hu" style="display: none;">Galéria</a>
+                <a href="#signup" class="nav-link" data-lang="en">Subscribe</a>
+                <a href="#signup" class="nav-link" data-lang="hu" style="display: none;">Feliratkozás</a>
+            </div>
+            <button class="language-toggle" id="languageToggle">HU | EN</button>
+        </nav>
+        
+        <div class="hero-content">
+            <p class="series-title" data-lang="en">The Ribni Ezera Series</p>
+            <p class="series-title" data-lang="hu" style="display: none;">A Ribni Ezera Sorozat</p>
+            
+            <h1 class="book-title" data-lang="en">Fish Lakes:<br/> Knowledge to Die For</h1>
+            <h1 class="book-title" data-lang="hu" style="display: none;">Halastavak: A Tudásért Meghalni</h1>
+            
+            <p class="book-description" data-lang="en">
+                In Bulgaria's Rila mountains, software engineer Dimitar adjusts to life after society's collapse.
+                When his daughter falls ill, he must risk everything to save her, leveraging the very technology
+                that may now threaten his family's survival.
+            </p>
+            <p class="book-description" data-lang="hu" style="display: none;">
+                Bulgária Rila-hegységében Dimitar szoftvermérnök alkalmazkodik a társadalom összeomlása utáni élethez.
+                Amikor lánya megbetegszik, mindent kockáztatnia kell, hogy megmentse őt, felhasználva azt a
+                technológiát, amely most veszélyeztetheti családja túlélését.
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="#signup" class="cta-button primary-button" data-lang="en">Get Sample Chapter</a>
+                <a href="#signup" class="cta-button primary-button" data-lang="hu" style="display: none;">Kérj Mutatványfejezetet</a>
+                
+                <a href="#about" class="cta-button secondary-button" data-lang="en">Learn More</a>
+                <a href="#about" class="cta-button secondary-button" data-lang="hu" style="display: none;">Tudj Meg Többet</a>
+            </div>
+        </div>
+    </header>
+    
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-content">
+                <h2 class="section-title" data-lang="en">About the Book</h2>
+                <h2 class="section-title" data-lang="hu" style="display: none;">A Könyvről</h2>
+                
+                <p class="about-text" data-lang="en">
+                    In Bulgaria's Rila mountains, software engineer Dimitar adjusts to life after society's collapse. Stranded with his three children, three shepherd dogs, and a flock of sheep, he's learning to survive in this new reality.
+                </p>
+                <p class="about-text" data-lang="hu" style="display: none;">
+                    Bulgária Rila-hegységében Dimitar szoftvermérnök alkalmazkodik a társadalom összeomlása utáni élethez. Három gyermekével, három juhászkutyával és egy juhnyájjal együtt tanulja meg, hogyan élhet túl ebben az új valóságban.
+                </p>
+                
+                <p class="about-text" data-lang="en">
+                    When his three-year-old daughter Mara falls dangerously ill, Dimitar relies on what he knows best—an AI system he smuggled from the city. But to save Mara, he must risk contact with the outside world, where many would kill for working AI technology.
+                </p>
+                <p class="about-text" data-lang="hu" style="display: none;">
+                    Amikor hároméves lánya, Mara veszélyesen megbetegszik, Dimitar arra támaszkodik, amit a legjobban ismer – egy mesterséges intelligencia rendszerre, amelyet a városból csempészett ki. De hogy megmentse Marát, kockáztatnia kell a külvilággal való kapcsolatfelvételt, ahol sokan ölni is képesek lennének egy működő MI technológiáért.
+                </p>
+                
+                <p class="about-text" data-lang="en">
+                    As Dimitar navigates between his technological skills and this new rural existence, he discovers that the very tools that once defined his life may now threaten his family's survival.
+                </p>
+                <p class="about-text" data-lang="hu" style="display: none;">
+                    Ahogy Dimitar egyensúlyoz technológiai készségei és az új falusi lét között, rájön, hogy épp azok az eszközök, amelyek egykor meghatározták életét, most veszélyeztethetik családja túlélését.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">📚</div>
+                        <p class="feature-text" data-lang="en">For fans of Emily St. John Mandel's intimate <em>Station Eleven</em></p>
+                        <p class="feature-text" data-lang="hu" style="display: none;">Emily St. John Mandel bensőséges <em>Station Eleven</em> című művének kedvelőinek</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🏞️</div>
+                        <p class="feature-text" data-lang="en">And Peter Heller's wilderness-centered <em>The Dog Stars</em></p>
+                        <p class="feature-text" data-lang="hu" style="display: none;">És Peter Heller vadonközpontú <em>The Dog Stars</em> című művének kedvelőinek</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔥</div>
+                        <p class="feature-text" data-lang="en">A slow-burning post-apocalyptic tale</p>
+                        <p class="feature-text" data-lang="hu" style="display: none;">Egy lassan kibontakozó apokalipszis utáni történet</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💻</div>
+                        <p class="feature-text" data-lang="en">Explores technology vs. nature in crisis</p>
+                        <p class="feature-text" data-lang="hu" style="display: none;">A technológia és a természet ellentétét vizsgálja krízishelyzetben</p>
+                    </div>
+                </div>
+            </div>
+            
+            <img src="/assets/img/malyovitsa.jpg" alt="Rila Mountains" class="about-image">
+        </div>
+    </section>
+    
+    <section class="endorsements-section">
+        <div class="endorsements-container">
+            <h2 class="section-title" data-lang="en">Praise for Fish Lakes</h2>
+            <h2 class="section-title" data-lang="hu" style="display: none;">Méltatások</h2>
+            
+            <div class="endorsements-grid">
+                <div class="endorsement">
+                    <p class="endorsement-text" data-lang="en">
+                        "A haunting meditation on our reliance on technology and the primal skills we've forgotten. 
+                        This compelling tale of human resilience reminds us what truly matters when everything falls apart."
+                    </p>
+                    <p class="endorsement-text" data-lang="hu" style="display: none;">
+                        "Megrázó elmélkedés a technológiától való függőségünkről és az elfelejtett ősi készségeinkről. 
+                        Ez a lebilincselő történet az emberi ellenállóképességről emlékeztet minket arra, mi számít igazán, amikor minden összeomlik."
+                    </p>
+                    <p class="endorsement-author" data-lang="en">
+                        — Endorser 1
+                    </p>
+                    <p class="endorsement-author" data-lang="hu" style="display: none;">
+                        — Endorser 1
+                    </p>
+                </div>
+                
+                <div class="endorsement">
+                    <p class="endorsement-text" data-lang="en">
+                        "Brilliantly explores the tension between modern knowledge and ancient wisdom. 
+                        A beautifully crafted story of a father's love against the backdrop of societal collapse."
+                    </p>
+                    <p class="endorsement-text" data-lang="hu" style="display: none;">
+                        "Briliánsan feltárja a modern tudás és az ősi bölcsesség közötti feszültséget. 
+                        Gyönyörűen megírt történet egy apa szeretetéről a társadalmi összeomlás hátterében."
+                    </p>
+                    <p class="endorsement-author" data-lang="en">
+                        — Endorser 2
+                    </p>
+                    <p class="endorsement-author" data-lang="hu" style="display: none;">
+                        — Endorser 2
+                    </p>
+                </div>
+                
+                <div class="endorsement">
+                    <p class="endorsement-text" data-lang="en">
+                        "A masterful blend of post-apocalyptic anxiety and intimate family drama. 
+                        This powerful debut lingers long after the final page."
+                    </p>
+                    <p class="endorsement-text" data-lang="hu" style="display: none;">
+                        "A posztapokaliptikus szorongás és a bensőséges családi dráma mesteri keveréke. 
+                        Ez az erőteljes debütálás sokáig az olvasóval marad az utolsó oldal után is."
+                    </p>
+                    <p class="endorsement-author" data-lang="en">
+                        — Endorser 3
+                    </p>
+                    <p class="endorsement-author" data-lang="hu" style="display: none;">
+                        — Endorser 3
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="author-section">
+        <div class="author-container">
+            <div class="author-image-container">
+                <img src="/assets/img/author.jpg" alt="Author portrait" class="author-image">
+            </div>
+            <div class="author-content">
+                <h2 class="section-title" data-lang="en">About the Author</h2>
+                <h2 class="section-title" data-lang="hu" style="display: none;">A Szerzőről</h2>
+                
+                <p class="author-text" data-lang="en">
+                    Miklós Koren lives in Budapest and Vienna. He first visited the Rila Mountains in 1984.
+                </p>
+                <p class="author-text" data-lang="hu" style="display: none;">
+                    Koren Miklós Budapesten és Bécsben él. Először 1984-ben járt a Rila-hegységben.
+                </p>
+                
+                <div class="author-social">
+                    <a href="#" class="author-social-link">Website</a>
+                    <a href="#" class="author-social-link">Twitter</a>
+                    <a href="#" class="author-social-link">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="signup" class="signup-section">
+        <div class="signup-container">
+            <h2 class="signup-title" data-lang="en">Get a Free Sample Chapter</h2>
+            <h2 class="signup-title" data-lang="hu" style="display: none;">Kérj Ingyenes Mutatványfejezetet</h2>
+            
+            <p class="signup-text" data-lang="en">
+                Sign up to receive a free sample chapter and be notified when the book is available.
+            </p>
+            <p class="signup-text" data-lang="hu" style="display: none;">
+                Iratkozz fel, hogy megkapd az ingyenes mutatványfejezetet, és értesülj, amikor a könyv elérhetővé válik.
+            </p>
+            
+            <form class="signup-form" id="emailForm">
+                <input type="email" class="email-input" id="emailInput" placeholder="Your email address" data-lang="en" required>
+                <input type="email" class="email-input" id="emailInputHu" placeholder="Email címed" data-lang="hu" style="display: none;" required>
+                
+                <button type="submit" class="submit-button" data-lang="en">Subscribe</button>
+                <button type="submit" class="submit-button" data-lang="hu" style="display: none;">Feliratkozás</button>
+            </form>
+        </div>
+    </section>
+    
+    <section id="gallery" class="gallery-section">
+        <h2 class="gallery-title" data-lang="en">The Rila Mountains</h2>
+        <h2 class="gallery-title" data-lang="hu" style="display: none;">A Rila-hegység</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="/assets/img/cabin-human.jpg" alt="Mountain cabin at sunset" class="gallery-image">
+                <div class="gallery-caption" data-lang="en">Mountain shelter at sunset</div>
+                <div class="gallery-caption" data-lang="hu" style="display: none;">Hegyi menedék naplementekor</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/assets/img/stone-shelter.jpg" alt="Stone shelter view" class="gallery-image">
+                <div class="gallery-caption" data-lang="en">View from an ancient stone shelter</div>
+                <div class="gallery-caption" data-lang="hu" style="display: none;">Kilátás egy ősi kőmenedékből</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/assets/img/ribni-ezera.jpg" alt="Mountain stream" class="gallery-image">
+                <div class="gallery-caption" data-lang="en">Alpine stream flowing through the valley</div>
+                <div class="gallery-caption" data-lang="hu" style="display: none;">Hegyi patak folyik át a völgyön</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/assets/img/house-laundry.jpg" alt="Mountain hut" class="gallery-image">
+                <div class="gallery-caption" data-lang="en">Traditional mountain hut with laundry</div>
+                <div class="gallery-caption" data-lang="hu" style="display: none;">Hagyományos hegyi kunyhó szárítóval</div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">RIBNI EZERA</div>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link" data-lang="en">Home</a>
+                <a href="#" class="footer-link" data-lang="hu" style="display: none;">Főoldal</a>
+                <a href="#about" class="footer-link" data-lang="en">About</a>
+                <a href="#about" class="footer-link" data-lang="hu" style="display: none;">Ismertető</a>
+                <a href="#gallery" class="footer-link" data-lang="en">Gallery</a>
+                <a href="#gallery" class="footer-link" data-lang="hu" style="display: none;">Galéria</a>
+                <a href="#signup" class="footer-link" data-lang="en">Subscribe</a>
+                <a href="#signup" class="footer-link" data-lang="hu" style="display: none;">Feliratkozás</a>
+            </div>
+            
+            <div class="footer-social">
+                <a href="#" class="social-icon">📘</a>
+                <a href="#" class="social-icon">🐦</a>
+                <a href="#" class="social-icon">📷</a>
+            </div>
+
+            <p class="photo-credit" data-lang="en">Photos by Radoslav Sarov / gowhere.bg</p>
+            <p class="photo-credit" data-lang="hu" style="display: none;">Fotók: Radoslav Sarov / gowhere.bg</p>
+            
+            <p class="footer-text" data-lang="en">© 2025 Ribni Ezera Series. All rights reserved. Coded Thinking OÜ.</p>
+            <p class="footer-text" data-lang="hu" style="display: none;">© 2025 Ribni Ezera Sorozat. Minden jog fenntartva. Coded Thinking OÜ.</p>
+            
+            <p class="site-info">
+                <a href="https://ribniezera.world" class="site-link">ribniezera.world</a> | 
+                <a href="https://fishlakes.world" class="site-link">fishlakes.world</a>
+            </p>
+        </div>
+    </footer>
+    
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="modal-title" data-lang="en">Thank You!</h3>
+            <h3 class="modal-title" data-lang="hu" style="display: none;">Köszönjük!</h3>
+            
+            <p class="modal-text" data-lang="en">
+                Your sample chapter is on its way to your inbox. We'll also notify you when the book is available.
+            </p>
+            <p class="modal-text" data-lang="hu" style="display: none;">
+                A mutatványfejezet úton van a postaládádba. Értesíteni fogunk, amikor a könyv elérhetővé válik.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Language toggle
+        const languageToggle = document.getElementById('languageToggle');
+        const enElements = document.querySelectorAll('[data-lang="en"]');
+        const huElements = document.querySelectorAll('[data-lang="hu"]');
+        
+        let currentLanguage = 'en';
+        
+        languageToggle.addEventListener('click', () => {
+            if (currentLanguage === 'en') {
+                // Switch to Hungarian
+                enElements.forEach(el => el.style.display = 'none');
+                huElements.forEach(el => el.style.display = 'block');
+                currentLanguage = 'hu';
+                
