@@ -993,17 +993,86 @@
     </div>
     
     <script>
-        // Language toggle
-        const languageToggle = document.getElementById('languageToggle');
-        const enElements = document.querySelectorAll('[data-lang="en"]');
-        const huElements = document.querySelectorAll('[data-lang="hu"]');
-        
-        let currentLanguage = 'en';
-        
-        languageToggle.addEventListener('click', () => {
+languageToggle.addEventListener('click', () => {
             if (currentLanguage === 'en') {
                 // Switch to Hungarian
                 enElements.forEach(el => el.style.display = 'none');
-                huElements.forEach(el => el.style.display = 'block');
+                huElements.forEach(el => {
+                    if (el.tagName === 'INPUT') {
+                        el.style.display = 'block';
+                        el.previousElementSibling.style.display = 'none';
+                    } else {
+                        el.style.display = 'block';
+                    }
+                });
                 currentLanguage = 'hu';
+                languageToggle.textContent = 'EN | HU';
+            } else {
+                // Switch to English
+                huElements.forEach(el => el.style.display = 'none');
+                enElements.forEach(el => {
+                    if (el.tagName === 'INPUT') {
+                        el.style.display = 'block';
+                        el.nextElementSibling.style.display = 'none';
+                    } else {
+                        el.style.display = 'block';
+                    }
+                });
+                currentLanguage = 'en';
+                languageToggle.textContent = 'HU | EN';
+            }
+        });
+        
+        // Email form submission
+        const emailForm = document.getElementById('emailForm');
+        const successModal = document.getElementById('successModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        emailForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const emailInput = currentLanguage === 'en' ? 
+                document.getElementById('emailInput') : 
+                document.getElementById('emailInputHu');
+            const email = emailInput.value;
+            
+            try {
+                // Replace 'YOUR_FORM_ID' with your actual ConvertKit form ID
+                const response = await fetch('https://api.convertkit.com/v3/forms/YOUR_FORM_ID/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        api_key: 'YOUR_PUBLIC_API_KEY', // Replace with your ConvertKit public API key
+                        email: email,
+                        tags: ['fish-lakes-sample'] // Optional: tag subscribers
+                    })
+                });
                 
+                if (response.ok) {
+                    successModal.style.display = 'flex';
+                    emailInput.value = '';
+                } else {
+                    alert(currentLanguage === 'en' ? 
+                        'Something went wrong. Please try again.' : 
+                        'Valami elromlott. Kérjük, próbálja újra.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(currentLanguage === 'en' ? 
+                    'Something went wrong. Please try again.' : 
+                    'Valami elromlott. Kérjük, próbálja újra.');
+            }
+        });
+        
+        closeModal.addEventListener('click', () => {
+            successModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                successModal.style.display = 'none';
+            }
+        });</script>
