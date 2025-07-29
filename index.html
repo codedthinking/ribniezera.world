@@ -875,10 +875,10 @@
                 <h2 class="section-title" data-lang="hu" style="display: none;">A szerzőről</h2>
                 
                 <p class="author-text" data-lang="en">
-                    Miklós Koren is an economist researching how technology and talent shape economic development. He first visited the Rila Mountains in 1984. <em>Fish Lakes</em> is his first novel.
+                    Miklós Koren is an economist. His research explores how technology and talent jointly contribute to economic development. He first visited the Rila Mountains in 1984. Fish Lakes is his first novel.
                 </p>
                 <p class="author-text" data-lang="hu" style="display: none;">
-                    Koren Miklós közgazdász. Azt kutatja, hogy a technológia és a tehetség hogyan határozzák meg a gazdasági fejlődést. 1984-ben járt először a Rila-hegységben. A Halastavak az első regénye. 
+                    Koren Miklós közgazdász. Kutatóként azt vizsgálja, hogy a technológia és a tehetség hogyan járulnak hozzá a gazdasági fejlődéshez. 1984-ben járt először a Rila-hegységben. A Halastavak az első regénye. 
                 </p>
                 
                 <div class="author-social">
@@ -902,16 +902,7 @@
                 Küldök egy ingyenes fejezetet, és értesítelek, amikor a könyv megjelenik.
             </p>
             
-            <form class="signup-form" id="emailForm" data-convertkit-form-id="">
-                <input type="email" class="email-input" id="emailInput" name="email_address" placeholder="Your email address" data-lang="en" required>
-                <input type="email" class="email-input" id="emailInputHu" name="email_address" placeholder="Email cím" data-lang="hu" style="display: none;" required>
-                
-                <!-- Hidden field for first name (optional) -->
-                <input type="hidden" name="first_name" value="" id="first-name-field">
-                
-                <button type="submit" class="submit-button" data-lang="en">Subscribe</button>
-                <button type="submit" class="submit-button" data-lang="hu" style="display: none;">Feliratkozás</button>
-            </form>
+            <script async data-uid="b602b7ace6" src="https://relentless-producer-1210.kit.com/b602b7ace6/index.js"></script>
         </div>
     </section>
     
@@ -995,29 +986,6 @@
     </div>
     
     <script>
-        /* 
-         * ConvertKit Integration Setup Instructions:
-         * 
-         * 1. Get your ConvertKit API Key:
-         *    - Go to https://app.convertkit.com/account/edit
-         *    - Copy your "API Key" (not the API Secret)
-         * 
-         * 2. Get your Form ID:
-         *    - Go to https://app.convertkit.com/forms
-         *    - Click on your form
-         *    - The Form ID is in the URL: /forms/[FORM_ID]/summary
-         *    - Or you can find it in the form's embed code
-         * 
-         * 3. Replace the empty strings below with your actual values
-         * 
-         * Note: The form will still work without these values (showing success modal)
-         * but won't actually subscribe users to ConvertKit.
-         */
-        const CONVERTKIT_CONFIG = {
-            apiKey: '', // Your ConvertKit API key
-            formId: ''  // Your ConvertKit form ID (just the number)
-        };
-        
         // Language toggle
         const languageToggle = document.getElementById('languageToggle');
         const enElements = document.querySelectorAll('[data-lang="en"]');
@@ -1041,16 +1009,6 @@
             });
         }
 
-        function updateInputStates() {
-            if (currentLanguage === 'en') {
-                emailInputEn.disabled = false;
-                emailInputHu.disabled = true;
-            } else {
-                emailInputEn.disabled = true;
-                emailInputHu.disabled = false;
-            }
-        }
-
         languageToggle.addEventListener('click', () => {
             if (currentLanguage === 'en') {
                 // Switch to Hungarian
@@ -1065,101 +1023,7 @@
                 currentLanguage = 'en';
                 languageToggle.textContent = 'HU | EN';
             }
-            updateInputStates();
-        });
-
-        // Email form handling
-        const emailForm = document.getElementById('emailForm');
-        const successModal = document.getElementById('successModal');
-        const closeModal = document.getElementById('closeModal');
-        const emailInputEn = document.getElementById('emailInput');
-        const emailInputHu = document.getElementById('emailInputHu');
-
-        // Initialize input states
-        updateInputStates();
-
-        emailForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Get the active email input based on current language
-            const activeEmailInput = currentLanguage === 'en' ? emailInputEn : emailInputHu;
-            const submitButton = currentLanguage === 'en' ? 
-                document.querySelector('.submit-button[data-lang="en"]') : 
-                document.querySelector('.submit-button[data-lang="hu"]');
-            const email = activeEmailInput.value;
-            
-            if (!email) {
-                alert(currentLanguage === 'en' ? 'Please enter your email address.' : 'Kérjük, adja meg email címét.');
-                return;
-            }
-            
-            // Show loading state
-            const originalButtonText = submitButton.textContent;
-            submitButton.textContent = currentLanguage === 'en' ? 'Subscribing...' : 'Feliratkozás...';
-            submitButton.disabled = true;
-            
-            // Get ConvertKit configuration
-            const formId = CONVERTKIT_CONFIG.formId;
-            const apiKey = CONVERTKIT_CONFIG.apiKey;
-            
-            if (!formId || !apiKey) {
-                console.warn('ConvertKit form ID or API key not configured. Showing success modal anyway.');
-                successModal.style.display = 'flex';
-                // Clear the form
-                activeEmailInput.value = '';
-                // Restore button state
-                submitButton.textContent = originalButtonText;
-                submitButton.disabled = false;
-                return;
-            }
-            
-            try {
-                // Submit to ConvertKit
-                const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        api_key: apiKey,
-                        email: email,
-                        first_name: '' // You can add a first name field later if needed
-                    })
-                });
-                
-                if (response.ok) {
-                    // Success - show modal
-                    successModal.style.display = 'flex';
-                    // Clear the form
-                    activeEmailInput.value = '';
-                } else {
-                    throw new Error('Subscription failed');
-                }
-            } catch (error) {
-                console.error('ConvertKit submission error:', error);
-                // Show error message
-                const errorMsg = currentLanguage === 'en' 
-                    ? 'Something went wrong. Please try again.' 
-                    : 'Valami hiba történt. Kérjük, próbálja újra.';
-                alert(errorMsg);
-            } finally {
-                // Always restore button state
-                submitButton.textContent = originalButtonText;
-                submitButton.disabled = false;
-            }
-        });
-
-        closeModal.addEventListener('click', () => {
-            successModal.style.display = 'none';
-        });
-
-        // Close modal when clicking outside
-        successModal.addEventListener('click', (e) => {
-            if (e.target === successModal) {
-                successModal.style.display = 'none';
-            }
         });
     </script>
 </body>
 </html>
-                
