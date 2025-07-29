@@ -904,9 +904,12 @@
                 Iratkozz fel az ingyenes fejezetért, és értesülj a könyv megjelenéséről.
             </p>
             
-            <form class="signup-form" id="emailForm">
-                <input type="email" class="email-input" id="emailInput" placeholder="Your email address" data-lang="en" required>
-                <input type="email" class="email-input" id="emailInputHu" placeholder="Email cím" data-lang="hu" style="display: none;" required>
+            <form class="signup-form" id="emailForm" data-convertkit-form-id="">
+                <input type="email" class="email-input" id="emailInput" name="email_address" placeholder="Your email address" data-lang="en" required>
+                <input type="email" class="email-input" id="emailInputHu" name="email_address" placeholder="Email cím" data-lang="hu" style="display: none;" required>
+                
+                <!-- Hidden field for first name (optional) -->
+                <input type="hidden" name="first_name" value="" id="first-name-field">
                 
                 <button type="submit" class="submit-button" data-lang="en">Subscribe</button>
                 <button type="submit" class="submit-button" data-lang="hu" style="display: none;">Feliratkozás</button>
@@ -993,6 +996,29 @@
     </div>
     
     <script>
+        /* 
+         * ConvertKit Integration Setup Instructions:
+         * 
+         * 1. Get your ConvertKit API Key:
+         *    - Go to https://app.convertkit.com/account/edit
+         *    - Copy your "API Key" (not the API Secret)
+         * 
+         * 2. Get your Form ID:
+         *    - Go to https://app.convertkit.com/forms
+         *    - Click on your form
+         *    - The Form ID is in the URL: /forms/[FORM_ID]/summary
+         *    - Or you can find it in the form's embed code
+         * 
+         * 3. Replace the empty strings below with your actual values
+         * 
+         * Note: The form will still work without these values (showing success modal)
+         * but won't actually subscribe users to ConvertKit.
+         */
+        const CONVERTKIT_CONFIG = {
+            apiKey: '', // Your ConvertKit API key
+            formId: ''  // Your ConvertKit form ID (just the number)
+        };
+        
         // Language toggle
         const languageToggle = document.getElementById('languageToggle');
         const enElements = document.querySelectorAll('[data-lang="en"]');
@@ -1053,9 +1079,75 @@
         // Initialize input states
         updateInputStates();
 
-        emailForm.addEventListener('submit', (e) => {
+        emailForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            successModal.style.display = 'flex';
+            
+            // Get the active email input based on current language
+            const activeEmailInput = currentLanguage === 'en' ? emailInputEn : emailInputHu;
+            const submitButton = currentLanguage === 'en' ? 
+                document.querySelector('.submit-button[data-lang="en"]') : 
+                document.querySelector('.submit-button[data-lang="hu"]');
+            const email = activeEmailInput.value;
+            
+            if (!email) {
+                alert(currentLanguage === 'en' ? 'Please enter your email address.' : 'Kérjük, adja meg email címét.');
+                return;
+            }
+            
+            // Show loading state
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = currentLanguage === 'en' ? 'Subscribing...' : 'Feliratkozás...';
+            submitButton.disabled = true;
+            
+            // Get ConvertKit configuration
+            const formId = CONVERTKIT_CONFIG.formId;
+            const apiKey = CONVERTKIT_CONFIG.apiKey;
+            
+            if (!formId || !apiKey) {
+                console.warn('ConvertKit form ID or API key not configured. Showing success modal anyway.');
+                successModal.style.display = 'flex';
+                // Clear the form
+                activeEmailInput.value = '';
+                // Restore button state
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+            
+            try {
+                // Submit to ConvertKit
+                const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        api_key: apiKey,
+                        email: email,
+                        first_name: '' // You can add a first name field later if needed
+                    })
+                });
+                
+                if (response.ok) {
+                    // Success - show modal
+                    successModal.style.display = 'flex';
+                    // Clear the form
+                    activeEmailInput.value = '';
+                } else {
+                    throw new Error('Subscription failed');
+                }
+            } catch (error) {
+                console.error('ConvertKit submission error:', error);
+                // Show error message
+                const errorMsg = currentLanguage === 'en' 
+                    ? 'Something went wrong. Please try again.' 
+                    : 'Valami hiba történt. Kérjük, próbálja újra.';
+                alert(errorMsg);
+            } finally {
+                // Always restore button state
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            }
         });
 
         closeModal.addEventListener('click', () => {
