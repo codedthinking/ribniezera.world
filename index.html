@@ -984,12 +984,24 @@
     </div>
     
     <script>
+        // Check referrer for Hungarian domains
+        function checkReferrerLanguage() {
+            const referrer = document.referrer;
+            if (referrer) {
+                const referrerHostname = new URL(referrer).hostname;
+                if (referrerHostname.includes('halastavak.org') || referrerHostname.includes('halastavak.world')) {
+                    return 'hu';
+                }
+            }
+            return 'en';
+        }
+        
         // Language toggle
         const languageToggle = document.getElementById('languageToggle');
         const enElements = document.querySelectorAll('[data-lang="en"]');
         const huElements = document.querySelectorAll('[data-lang="hu"]');
         
-        let currentLanguage = 'en';
+        let currentLanguage = checkReferrerLanguage();
         
         function showElements(elements) {
             elements.forEach(el => {
@@ -1007,6 +1019,13 @@
             });
         }
 
+        // Initialize language based on referrer
+        if (currentLanguage === 'hu') {
+            hideElements(enElements);
+            showElements(huElements);
+            languageToggle.textContent = 'EN | HU';
+        }
+        
         languageToggle.addEventListener('click', () => {
             if (currentLanguage === 'en') {
                 // Switch to Hungarian
