@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -737,11 +737,11 @@
             
             <p class="book-description" data-lang="en">
                 Bulgaria, 2040. When AI is banned and society collapses, programmer Dimitar flees to the Rila mountains with his family. 
-                But when his daughter falls ill, he must confront the limits of knowledge in a world without technology—and fight those who would kill for what he hides.
+                But when his daughter falls ill, he must confront the limits of knowledge in a world without technology&mdash;and fight those who would kill for what he hides.
             </p>
             <p class="book-description" data-lang="hu" style="display: none;">
                 Bulgária, 2040. Miután az AI-t betiltják és összeomlik a társadalom, a programozó Dimitar a Rila-hegységbe menekül a családjával.
-                De amikor a lánya megbetegszik, szembesülnie kell azzal, hogy a tudás önmagában kevés a túléléshez—és megküzdenie azokkal, akik ölni tudnának a titkáért.
+                De amikor a lánya megbetegszik, szembesülnie kell azzal, hogy a tudás önmagában kevés a túléléshez&mdash;és meg kell küzdenie azokkal, akik ölni tudnának a titkáért.
             </p>
             
             <div class="cta-buttons">
@@ -764,7 +764,7 @@
                     The world didn't collapse overnight. AI devices once solved everything: they diagnosed illnesses, designed medicines, crafted legal arguments. People took on new roles: mechanics, caregivers, shepherds. Then—it's not clear exactly why—AI was banned.
                 </p>
                 <p class="about-text" data-lang="hu" style="display: none;">
-                    A világ nem egyik napról a másikra omlott össze. Az AI-eszközök egykor mindent megoldottak: diagnózist adtak, gyógyszert terveztek, jogi érveket készítettek. Az emberek új szerepeket vállaltak: szerelők, gondozók, pásztorok lettek. Aztán – nem világos, pontosan miért – az AI-t betiltották.
+                    A világ nem egyik napról a másikra omlott össze. Előbb még mindent megoldottak AI-eszközök: diagnosztizáltak, gyógyszert terveztek, jogi érvelést írtak. Az embereknek új szerepek jutottak: szerelők, gondozók, pásztorok lettek. Aztán – nem világos, pontosan miért – az AI-t betiltották.
                 </p>
                 
                 <p class="about-text" data-lang="en">
@@ -775,10 +775,10 @@
                 </p>
                 
                 <p class="about-text" data-lang="en">
-                    Many would kill to have what Dimitar has: a working AI system. And those who survive are the ones who never believed that knowledge solves everything.
+                    He has a secret many would kill for: a rudimentary, but working AI system. In the struggle between haves and have-nots, only those can survive who don't believe that knowledge is the answer to every problem.
                 </p>
                 <p class="about-text" data-lang="hu" style="display: none;">
-                    Sokan ölni tudnának Dimitar titkáért: egy működő AI-rendszerért. Csak az maradhat életben, aki nem hitte el, hogy a tudás minden problémát megold.
+                    De van egy titka, amiért sokan ölni tudnának: egy kezdetleges, de működő AI-rendszer. Az erőforrásokért vívott harcban csak azok maradhatnak életben, akik nem hiszik, hogy a tudás minden problémát megold.
                 </p>
                 
                 <div class="features">
@@ -984,16 +984,17 @@
     </div>
     
     <script>
-        // Check referrer for Hungarian domains
-        function checkReferrerLanguage() {
-            const referrer = document.referrer;
-            if (referrer) {
-                const referrerHostname = new URL(referrer).hostname;
-                if (referrerHostname.includes('halastavak.org') || referrerHostname.includes('halastavak.world')) {
-                    return 'hu';
-                }
+        // Check URL parameters for language preference
+        function checkLanguageFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            
+            // Only accept 'en' for English, otherwise default to Hungarian
+            if (langParam === 'en') {
+                return 'en';
             }
-            return 'en';
+            
+            return 'hu';
         }
         
         // Language toggle
@@ -1001,7 +1002,7 @@
         const enElements = document.querySelectorAll('[data-lang="en"]');
         const huElements = document.querySelectorAll('[data-lang="hu"]');
         
-        let currentLanguage = checkReferrerLanguage();
+        let currentLanguage = checkLanguageFromURL();
         
         function showElements(elements) {
             elements.forEach(el => {
@@ -1019,11 +1020,15 @@
             });
         }
 
-        // Initialize language based on referrer
+        // Initialize language based on URL parameter
         if (currentLanguage === 'hu') {
             hideElements(enElements);
             showElements(huElements);
             languageToggle.textContent = 'EN | HU';
+        } else {
+            hideElements(huElements);
+            showElements(enElements);
+            languageToggle.textContent = 'HU | EN';
         }
         
         languageToggle.addEventListener('click', () => {
