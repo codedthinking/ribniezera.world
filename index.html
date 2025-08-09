@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -764,7 +764,7 @@
                     The world didn't collapse overnight. AI devices once solved everything: they diagnosed illnesses, designed medicines, crafted legal arguments. People took on new roles: mechanics, caregivers, shepherds. Then—it's not clear exactly why—AI was banned.
                 </p>
                 <p class="about-text" data-lang="hu" style="display: none;">
-                    A világ nem egyik napról a másikra omlott össze. Előbb még mindent megoldottak AI-eszközök: diagnosztizáltak, gyógyszert terveztek, jogi érvelést írtak. Az embereknek új szerepek jutottak: szerelők, gondozók, pásztorok lettek. Aztán – nem világos, pontosan miért – az AI-t betiltották.
+                    A világ nem egyik napról a másikra omlott össze. Előbb még mindent megoldottak az AI-eszközök: diagnosztizáltak, gyógyszert terveztek, jogi érvelést írtak. Az embereknek új szerepek jutottak: szerelők, gondozók, pásztorok lettek. Aztán – nem világos, pontosan miért – az AI-t betiltották.
                 </p>
                 
                 <p class="about-text" data-lang="en">
@@ -984,25 +984,12 @@
     </div>
     
     <script>
-        // Check URL parameters for language preference
-        function checkLanguageFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const langParam = urlParams.get('lang');
-            
-            // Only accept 'en' for English, otherwise default to Hungarian
-            if (langParam === 'en') {
-                return 'en';
-            }
-            
-            return 'hu';
-        }
-        
         // Language toggle
         const languageToggle = document.getElementById('languageToggle');
         const enElements = document.querySelectorAll('[data-lang="en"]');
         const huElements = document.querySelectorAll('[data-lang="hu"]');
         
-        let currentLanguage = checkLanguageFromURL();
+        let currentLanguage = 'hu';
         
         function showElements(elements) {
             elements.forEach(el => {
@@ -1020,16 +1007,10 @@
             });
         }
 
-        // Initialize language based on URL parameter
-        if (currentLanguage === 'hu') {
-            hideElements(enElements);
-            showElements(huElements);
-            languageToggle.textContent = 'EN | HU';
-        } else {
-            hideElements(huElements);
-            showElements(enElements);
-            languageToggle.textContent = 'HU | EN';
-        }
+        // Initialize with Hungarian as default
+        hideElements(enElements);
+        showElements(huElements);
+        languageToggle.textContent = 'EN | HU';
         
         languageToggle.addEventListener('click', () => {
             if (currentLanguage === 'en') {

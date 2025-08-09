@@ -65,3 +65,17 @@ The bilingual functionality works through:
 - Smooth animations and hover effects
 - Focus on readability with serif fonts for headings
 - Dark overlay on hero background image for text contrast
+
+## Troubleshooting
+
+### Language Toggle Issues
+
+When the page appears blank or content doesn't show:
+
+1. **Check the HTML lang attribute**: Should match the available content. If using `<html lang="en">`, ensure English content is available without `style="display: none;"`.
+
+2. **Avoid wrapping initialization in DOMContentLoaded**: The language initialization should run immediately when the script loads, not wait for DOM events.
+
+3. **Inline styles take precedence**: Hungarian elements have `style="display: none;"` hardcoded. The `showElements()` function properly overrides these with appropriate display values.
+
+4. **CSS animations can interfere**: The hero content uses `opacity: 0` with fade-in animations. Ensure JavaScript doesn't conflict with these animations.
