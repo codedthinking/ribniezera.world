@@ -900,7 +900,31 @@
                 Küldök egy ingyenes fejezetet, és értesítelek, amikor a könyv megjelenik.
             </p>
             
-            <script async data-uid="b602b7ace6" src="https://relentless-producer-1210.kit.com/b602b7ace6/index.js"></script>
+            <form class="signup-form" 
+                  id="signupForm"
+                  data-form-id="YOUR_LOOPS_FORM_ID"
+                  data-mailing-list-id="cmhugev420beg0i1i7sa99pd3"
+                  data-form-endpoint="https://app.loops.so/api/newsletter-form">
+                <!-- Honeypot field for spam prevention -->
+                <input type="text" name="bot-field" style="display: none;" tabindex="-1" autocomplete="off">
+                
+                <input type="email" 
+                       name="email" 
+                       class="email-input" 
+                       required
+                       data-lang="en"
+                       placeholder="Your email address">
+                <input type="email" 
+                       name="email" 
+                       class="email-input" 
+                       required
+                       data-lang="hu"
+                       style="display: none;"
+                       placeholder="Email címed">
+                
+                <button type="submit" class="submit-button" data-lang="en">Get Sample Chapter</button>
+                <button type="submit" class="submit-button" data-lang="hu" style="display: none;">Ingyenes fejezet</button>
+            </form>
         </div>
     </section>
     
@@ -1027,6 +1051,108 @@
                 languageToggle.textContent = 'HU | EN';
             }
         });
+
+        // Form submission handler for Loops.so
+        const signupForm = document.getElementById('signupForm');
+        const successModal = document.getElementById('successModal');
+        const closeModal = document.getElementById('closeModal');
+
+        if (signupForm) {
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Get form data
+                const formData = new FormData(signupForm);
+                const email = formData.get('email');
+                const botField = formData.get('bot-field');
+
+                // Check honeypot field for spam
+                if (botField) {
+                    console.log('Spam detected');
+                    return;
+                }
+
+                // Get configuration from data attributes
+                const formId = signupForm.dataset.formId;
+                const mailingListId = signupForm.dataset.mailingListId;
+                const formEndpoint = signupForm.dataset.formEndpoint;
+
+                // Validate form ID is configured
+                if (!formId || formId === 'YOUR_LOOPS_FORM_ID') {
+                    alert('Please configure your Loops.so Form ID in the HTML');
+                    return;
+                }
+
+                // Build URL-encoded parameters
+                const params = new URLSearchParams();
+                params.append('email', email);
+                
+                // Add mailing list
+                if (mailingListId) {
+                    params.append('mailingLists', mailingListId);
+                }
+
+                // Add custom fields for tracking
+                params.append('source', window.location.href);
+                if (document.referrer) {
+                    params.append('referrer', document.referrer);
+                }
+
+                // Disable submit button during submission
+                const submitButton = signupForm.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = currentLanguage === 'en' ? 'Submitting...' : 'Küldés...';
+
+                try {
+                    // Submit to Loops.so
+                    const response = await fetch(`${formEndpoint}/${formId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: params.toString()
+                    });
+
+                    if (response.ok) {
+                        // Show success modal
+                        successModal.style.display = 'flex';
+                        signupForm.reset();
+                    } else {
+                        const errorData = await response.json().catch(() => ({}));
+                        console.error('Form submission error:', errorData);
+                        alert(currentLanguage === 'en' 
+                            ? 'There was an error submitting your request. Please try again.' 
+                            : 'Hiba történt a küldés során. Kérlek próbáld újra.');
+                    }
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    alert(currentLanguage === 'en' 
+                        ? 'There was an error submitting your request. Please try again.' 
+                        : 'Hiba történt a küldés során. Kérlek próbáld újra.');
+                } finally {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
+            });
+        }
+
+        // Close modal handler
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                successModal.style.display = 'none';
+            });
+        }
+
+        // Close modal when clicking outside
+        if (successModal) {
+            successModal.addEventListener('click', (e) => {
+                if (e.target === successModal) {
+                    successModal.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
