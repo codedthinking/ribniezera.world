@@ -906,7 +906,7 @@
                   data-mailing-list-id="cmhugev420beg0i1i7sa99pd3"
                   data-form-endpoint="https://app.loops.so/api/newsletter-form">
                 <!-- Honeypot field for spam prevention -->
-                <input type="text" name="bot-field" style="display: none;" tabindex="-1" autocomplete="off">
+                <input type="text" name="website" style="display: none;" tabindex="-1" autocomplete="off">
                 
                 <input type="email" 
                        name="email" 
@@ -1053,24 +1053,26 @@
         });
 
         // Form submission handler for Loops.so
-        const signupForm = document.getElementById('signupForm');
-        const successModal = document.getElementById('successModal');
-        const closeModal = document.getElementById('closeModal');
+        (function() {
+            const signupForm = document.getElementById('signupForm');
+            const successModal = document.getElementById('successModal');
+            const closeModal = document.getElementById('closeModal');
 
-        if (signupForm) {
-            signupForm.addEventListener('submit', async (e) => {
+            if (!signupForm) return;
+
+            signupForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+
+                // Check honeypot field for spam
+                const honeypot = signupForm.querySelector('input[name="website"]');
+                if (honeypot && honeypot.value) {
+                    console.log('Spam detected');
+                    return;
+                }
 
                 // Get form data
                 const formData = new FormData(signupForm);
                 const email = formData.get('email');
-                const botField = formData.get('bot-field');
-
-                // Check honeypot field for spam
-                if (botField) {
-                    console.log('Spam detected');
-                    return;
-                }
 
                 // Get configuration from data attributes
                 const formId = signupForm.dataset.formId;
@@ -1080,14 +1082,15 @@
                 // Build URL-encoded parameters
                 const params = new URLSearchParams();
                 params.append('email', email);
+                params.append('userGroup', 'ribniezera.world');
+                params.append('source', window.location.href);
                 
                 // Add mailing list
                 if (mailingListId) {
                     params.append('mailingLists', mailingListId);
                 }
 
-                // Add custom fields for tracking
-                params.append('source', window.location.href);
+                // Add referrer tracking
                 if (document.referrer) {
                     params.append('referrer', document.referrer);
                 }
@@ -1108,16 +1111,14 @@
                         body: params.toString()
                     });
 
-                    if (response.ok) {
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
                         // Show success modal
                         successModal.style.display = 'flex';
                         signupForm.reset();
                     } else {
-                        const errorData = await response.json().catch(() => ({}));
-                        console.error('Form submission error:', errorData);
-                        alert(currentLanguage === 'en' 
-                            ? 'There was an error submitting your request. Please try again.' 
-                            : 'Hiba történt a küldés során. Kérlek próbáld újra.');
+                        throw new Error(data.message || 'Submission failed');
                     }
                 } catch (error) {
                     console.error('Form submission error:', error);
@@ -1130,23 +1131,23 @@
                     submitButton.textContent = originalButtonText;
                 }
             });
-        }
 
-        // Close modal handler
-        if (closeModal) {
-            closeModal.addEventListener('click', () => {
-                successModal.style.display = 'none';
-            });
-        }
-
-        // Close modal when clicking outside
-        if (successModal) {
-            successModal.addEventListener('click', (e) => {
-                if (e.target === successModal) {
+            // Close modal handler
+            if (closeModal) {
+                closeModal.addEventListener('click', function() {
                     successModal.style.display = 'none';
-                }
-            });
-        }
+                });
+            }
+
+            // Close modal when clicking outside
+            if (successModal) {
+                successModal.addEventListener('click', function(e) {
+                    if (e.target === successModal) {
+                        successModal.style.display = 'none';
+                    }
+                });
+            }
+        })();
     </script>
 </body>
 </html>
