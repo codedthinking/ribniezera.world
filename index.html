@@ -902,7 +902,7 @@
             
             <form class="signup-form" 
                   id="signupForm"
-                  data-form-id="YOUR_LOOPS_FORM_ID"
+                  data-form-id="cmhubr5b21wzczx0i46eeyfo9"
                   data-mailing-list-id="cmhugev420beg0i1i7sa99pd3"
                   data-form-endpoint="https://app.loops.so/api/newsletter-form">
                 <!-- Honeypot field for spam prevention -->
@@ -1076,12 +1076,6 @@
                 const formId = signupForm.dataset.formId;
                 const mailingListId = signupForm.dataset.mailingListId;
                 const formEndpoint = signupForm.dataset.formEndpoint;
-
-                // Validate form ID is configured
-                if (!formId || formId === 'YOUR_LOOPS_FORM_ID') {
-                    alert('Please configure your Loops.so Form ID in the HTML');
-                    return;
-                }
 
                 // Build URL-encoded parameters
                 const params = new URLSearchParams();
